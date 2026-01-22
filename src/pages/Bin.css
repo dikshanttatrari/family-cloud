@@ -1,0 +1,204 @@
+/* src/Bin.css */
+
+/* --- 🟢 1. GLOBAL BIN THEME --- */
+.bin-app {
+  min-height: 100vh;
+  background: #0f1014;
+  color: white;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* --- 🟢 2. MINIMAL HEADER (Navigation Only) --- */
+.bin-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(15, 16, 20, 0.9);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.btn-back {
+  background: transparent;
+  border: none;
+  color: #e5e7eb;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  border-radius: 50%;
+  transition: background 0.2s;
+}
+.btn-back:hover { background: rgba(255, 255, 255, 0.1); color: white; }
+
+.bin-header h1 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0;
+  color: #e5e7eb;
+}
+
+/* --- 🟢 3. STATUS BAR (The New Section) --- */
+.bin-status-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 32px 0 32px; /* Top padding for breathing room */
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.bin-info-text {
+  font-size: 0.9rem;
+  color: #9ca3af;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-empty-bin {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  padding: 8px 20px;
+  border-radius: 20px; /* Pill shape */
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+
+.btn-empty-bin:hover {
+  background: #ef4444;
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+/* --- 🟢 4. GHOST GRID --- */
+.bin-main {
+  flex: 1;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 24px 32px;
+  box-sizing: border-box;
+}
+
+.bin-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 16px;
+}
+
+/* Card Styling */
+.bin-card {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  background: #1c1c1f;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  cursor: default;
+  
+  /* 👻 Ghost Effect */
+  opacity: 0.7; 
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.bin-card:hover {
+  opacity: 1;
+  transform: scale(1.02);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  border-color: rgba(255, 255, 255, 0.2);
+  z-index: 10;
+}
+
+.bin-media {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: filter 0.3s;
+}
+.bin-card:hover .bin-media { filter: brightness(1.1); }
+
+/* Hover Actions */
+.bin-actions-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.bin-card:hover .bin-actions-overlay { opacity: 1; }
+
+.bin-btn {
+  width: 120px;
+  padding: 10px 0;
+  border-radius: 30px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transform: translateY(10px);
+  transition: all 0.2s;
+}
+
+.bin-card:hover .bin-btn { transform: translateY(0); }
+
+.btn-restore { background: white; color: black; }
+.btn-restore:hover { background: #e5e5e5; }
+
+.btn-delete-forever { background: rgba(255, 255, 255, 0.1); color: #ef4444; }
+.btn-delete-forever:hover { background: #ef4444; color: white; }
+
+/* Empty State */
+.bin-empty {
+  height: 60vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #6b7280;
+  text-align: center;
+}
+.bin-empty h3 { color: white; margin: 0 0 8px 0; font-size: 1.2rem; }
+.bin-empty p { margin: 0; font-size: 0.9rem; }
+
+/* Mobile Adjustments */
+@media (max-width: 768px) {
+  .bin-status-bar { padding: 20px 20px 0 20px; flex-direction: column; align-items: flex-start; gap: 16px; }
+  .btn-empty-bin { width: 100%; justify-content: center; }
+  .bin-main { padding: 20px; }
+  .bin-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  
+  /* Mobile Interaction: Always show a subtle overlay or make tap active */
+  .bin-card { opacity: 1; } /* No ghost on mobile for better visibility */
+  .bin-actions-overlay { opacity: 0; }
+  .bin-card:active .bin-actions-overlay { opacity: 1; }
+}
