@@ -4,7 +4,7 @@ import { Lock, ArrowRight, Loader2 } from "lucide-react";
 import "./Login.css"; // We will create this css next
 import { useNavigate } from "react-router-dom";
 
-const API_BASE = "https://family-cloud-backend-bfu9.onrender.com";
+const API_BASE = "https://dikshanttatrari-family-cloud-backend.hf.space";
 
 export default function Login() {
   const [password, setPassword] = useState("");

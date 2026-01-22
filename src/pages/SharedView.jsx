@@ -16,7 +16,7 @@ import {
 
 import "./SharedView.css";
 
-const API_BASE = "https://family-cloud-backend-bfu9.onrender.com";
+const API_BASE = "https://dikshanttatrari-family-cloud-backend.hf.space";
 
 export default function SharedView() {
   const { shareId } = useParams();
