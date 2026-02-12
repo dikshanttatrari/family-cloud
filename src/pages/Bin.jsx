@@ -15,7 +15,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import "./Bin.css";
 
-const API_BASE = "https://dikshanttatrari-family-cloud-backend.hf.space:7860";
+const API_BASE = "https://dikshanttatrari-family-cloud-backend.hf.space";
 
 export default function Bin() {
   const [files, setFiles] = useState([]);

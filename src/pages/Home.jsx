@@ -38,7 +38,7 @@ import {
 } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 
-const API_BASE = "https://dikshanttatrari-family-cloud-backend.hf.space:7860";
+const API_BASE = "https://dikshanttatrari-family-cloud-backend.hf.space";
 
 // ============================================================
 // 🛠️ HELPER FUNCTIONS (Moved outside component)
