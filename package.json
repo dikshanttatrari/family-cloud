@@ -17,6 +17,7 @@
     "lucide-react": "^0.562.0",
     "mongoose": "^9.1.4",
     "multer": "^2.0.2",
+    "plyr": "^3.8.4",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-router-dom": "^7.12.0",

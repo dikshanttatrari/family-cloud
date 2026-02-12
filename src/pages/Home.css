@@ -869,7 +869,7 @@ input:checked + .slider:before {
     max-height: 90vh;
     min-height: 60vh; 
     min-width: 40vw;
-    pointer-events: none; /* 🟢 Ensures touch events pass through the image to the overlay container */
+    pointer-events: auto !important; 
   transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   }
   
@@ -1506,4 +1506,416 @@ input:checked + .slider:before {
 
 .ranchers{
   font-family: "Ranchers";
+}
+
+
+
+/* 1. Center the player */
+/* --- 🟢 FULL HEIGHT VIDEO PLAYER --- */
+
+/* 1. Wrapper takes full available space in the preview body */
+.video-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%; /* Occupy full height of the parent */
+  pointer-events: none;
+}
+
+/* 2. The Player Container */
+.plyr {
+  pointer-events: auto;
+  
+  /* 🟢 FORCE FULL HEIGHT */
+  height: 100% !important; 
+  width: auto !important; /* Width adjusts automatically */
+  
+  /* Remove background */
+  background: transparent !important;
+  
+  /* Flex magic to center video and controls */
+  display: flex !important;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  
+  /* No border radius on full height usually looks better, 
+     but we can keep slight rounding if you want */
+  border-radius: 8px;
+  overflow: visible !important; /* 🟢 FIX: Allow controls to be seen */
+}
+
+/* 3. The Video Element */
+.plyr video {
+  /* 🟢 FILL THE HEIGHT */
+  height: 100% !important;
+  width: auto !important;
+  
+  /* Ensure it doesn't overflow width-wise on mobile */
+  max-width: 100vw; 
+  
+  /* Keep aspect ratio perfect */
+  object-fit: contain; 
+}
+
+/* 4. Controls: Overlay at the bottom of the VIDEO */
+.plyr__controls {
+  position: absolute !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  
+  z-index: 50 !important;
+  
+  /* Nice gradient up from bottom */
+  background: linear-gradient(to top, rgba(0,0,0,0.9), transparent) !important;
+  padding: 20px 20px 25px 20px !important;
+}
+
+/* 5. Center Play Button */
+.plyr__control--overlaid {
+  background: rgba(99, 102, 241, 0.8) !important;
+  padding: 24px !important;
+  border-radius: 50% !important;
+  z-index: 40;
+}
+.plyr__control--overlaid:hover {
+  background: #4f46e5 !important;
+  transform: scale(1.1);
+}
+
+/* 6. Video Wrapper Inner (Plyr specific) */
+.plyr__video-wrapper {
+  background: transparent !important;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* --- 🟢 FIX SKELETONS & ICONS --- */
+.skeleton-card { pointer-events: none; }
+.shimmer {
+  background: linear-gradient(90deg, #27272a 0%, #3f3f46 50%, #27272a 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+.skeleton-preview { width: 100%; padding-bottom: 100%; }
+.skeleton-text { height: 14px; border-radius: 4px; background: #333; }
+@keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
+/* Fix Video Icon Centering in Grid */
+.file-preview {
+  position: relative !important; /* Essential anchor */
+}
+
+.grid-video-overlay {
+  /* Anchor to the dead center of the square */
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  
+  /* Shift back by exactly 50% of its own size */
+  transform: translate(-50%, -50%) !important;
+  
+  /* Remove any full-width stretching */
+  width: auto !important;
+  height: auto !important;
+  display: block !important;
+  
+  /* Layering */
+  z-index: 20;
+  pointer-events: none;
+}
+
+/* --- 🟢 SLIDING ANIMATIONS --- */
+
+.slide-enter-right {
+  animation: slideInRight 0.3s ease-out;
+}
+
+.slide-enter-left {
+  animation: slideInLeft 0.3s ease-out;
+}
+
+@keyframes slideInRight {
+  from { transform: translate(-40%, -50%); opacity: 0; } /* Start slightly to the right */
+  to { transform: translate(-50%, -50%); opacity: 1; }
+}
+
+@keyframes slideInLeft {
+  from { transform: translate(-60%, -50%); opacity: 0; } /* Start slightly to the left */
+  to { transform: translate(-50%, -50%); opacity: 1; }
+}
+
+/* Loader Positioning */
+.preview-loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 5;
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Ensure mobile nav arrows are visible and positioned well */
+@media (max-width: 768px) {
+  .nav-arrow {
+    display: flex !important; /* Force show */
+    width: 44px; height: 44px;
+    background: rgba(0,0,0,0.4);
+  }
+  .nav-arrow.left { left: 10px; }
+  .nav-arrow.right { right: 10px; }
+  
+  /* Ensure image doesn't cover arrows completely */
+  .preview-media {
+    max-width: 85vw !important; 
+  }
+}
+
+/* Search Bar (Desktop) */
+.search-bar-container {
+  position: relative;
+  width: 320px;
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .search-bar-container {
+    display: block;
+  }
+}
+
+.search-bar-container .search-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #6b7280;
+  pointer-events: none;
+}
+
+.search-input {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 10px 14px 10px 42px;
+  border-radius: 24px;
+  color: white;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+}
+
+.search-input:focus {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.search-input::placeholder {
+  color: #6b7280;
+}
+
+/* Mobile Search */
+.mobile-search {
+  position: relative;
+  margin-bottom: 20px;
+  display: block;
+}
+
+@media (min-width: 768px) {
+  .mobile-search {
+    display: none;
+  }
+}
+
+.mobile-search .search-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #6b7280;
+}
+
+.mobile-search input {
+  width: 100%;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  padding: 12px 14px 12px 42px;
+  border-radius: 12px;
+  color: white;
+  font-size: 0.9rem;
+}
+
+/* Header Actions */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.view-toggle {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid transparent;
+  color: #9ca3af;
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.view-toggle:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: white;
+}
+
+.view-toggle.active {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+
+/* Sort Bar */
+.sort-bar {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.sort-btn {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  color: #9ca3af;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.sort-btn:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: white;
+}
+
+.sort-btn.active {
+  background: rgba(99, 102, 241, 0.15);
+  border-color: rgba(99, 102, 241, 0.3);
+  color: var(--primary);
+}
+
+/* List View */
+.grid-files.list-view {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.grid-files.list-view .card-file-optimized {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 12px;
+}
+
+.grid-files.list-view .file-preview {
+  width: 60px;
+  height: 60px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-right: 16px;
+}
+
+.grid-files.list-view .file-details {
+  flex: 1;
+  padding: 0;
+}
+
+.grid-files.list-view .file-name {
+  max-width: none;
+}
+
+/* Empty State */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 20px;
+  gap: 20px;
+  text-align: center;
+}
+
+.btn-outline {
+  padding: 12px 24px;
+  border: 1.5px solid var(--border);
+  background: transparent;
+  color: white;
+  border-radius: 24px;
+  cursor: pointer;
+  transition: 0.2s;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-outline:hover {
+  border-color: var(--primary);
+  background: rgba(99, 102, 241, 0.1);
+  color: var(--primary);
+}
+
+/* Meta Badge */
+.meta-badge {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  color: #9ca3af;
+  font-weight: 500;
+}
+
+/* Responsive Tweaks */
+@media (max-width: 768px) {
+  .header-actions {
+    gap: 8px;
+  }
+
+  .view-toggle {
+    width: 36px;
+    height: 36px;
+  }
+
+  .sort-bar {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 12px;
+  }
+
+  .sort-btn {
+    white-space: nowrap;
+  }
 }
